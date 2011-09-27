@@ -243,13 +243,16 @@
                 set_user_preference("forum_displaymode", $mode);
             }
 
-			//========raydebug falut code
             $canreply    = forum_user_can_post($forum, $discussion, $USER, $cm, $course, $context);
+			//========raydebug falut code start
+			if ( ($forum->limittime != 0) && ($forum->limittime<=time()) ) {
+				$canreply = false;
+			}
+			//========raydebug falut code end
             $canrate     = has_capability('mod/forum:rate', $context);
             $displaymode = get_user_preferences("forum_displaymode", $CFG->forum_displaymode);
 
             echo '&nbsp;'; // this should fix the floating in FF
-			//========raydebug falut code
             forum_print_discussion($course, $cm, $forum, $discussion, $post, $displaymode, $canreply, $canrate);
             break;
 
